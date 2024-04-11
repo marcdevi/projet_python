@@ -260,17 +260,28 @@ class Bot:
         self.name = "Name of your Bot"
 
     # BOT FUNCTIONS
-
     def check_valid_moves(self, active_board, active_game):
         myTable = []
+        score = 0
+        maxScore = 0
         for tile in active_board.board:
-            tel = active_board.is_legal_move(tile.x_pos, tile.y_pos, active_game.active_player)
-            if (tel != False):
-                myTable.append([tile.x_pos, tile.y_pos])
+            legalMove = active_board.is_legal_move(tile.x_pos, tile.y_pos, active_game.active_player)
+            if (legalMove != False):
+                score = 0
+                for sublist in legalMove:
+                    score += sublist[0]
+                    print("Au début le score est :" + str(score) + "Tandis que maxScore est:" + str(maxScore))
+                if score > maxScore:
+                    maxScore = score
+                    myTable = [(tile.x_pos, tile.y_pos)]
+                    print("Quand score > maxScore")
+                    print (myTable)
+                elif score == maxScore:
+                    myTable.append((tile.x_pos, tile.y_pos))
+                print("A la fin le score est :" + str(score) + "Tandis que maxScore est:" + str(maxScore))
+        print(random.choice(myTable))
+                ##myTable.append([tile.x_pos, tile.y_pos])
         return (random.choice(myTable))
-        print("Il faut récupérer toutes les cases du tableau")
-        print("Vérifier quels coups sont jouables")
-        print("Et renvoyer les coordonnées")
 
 # Create a new board & a new game instances
 othello_board = Board(8)
